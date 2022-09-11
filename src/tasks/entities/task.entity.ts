@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { TaskStatus } from '../enum/task-status.enum';
+
+export type TaskDocument = Task & Document;
 
 @Schema({ timestamps: true })
 export class Task {
