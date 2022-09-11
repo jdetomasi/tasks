@@ -12,31 +12,32 @@ export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Post()
-  create(@User() user, @Body() createTaskDto: CreateTaskDto): Promise<Task> {
+  async create(
+    @User() user,
+    @Body() createTaskDto: CreateTaskDto,
+  ): Promise<Task> {
     return this.tasksService.create(user.userId, createTaskDto);
   }
 
   @Get()
-  findAll(@User() user): Promise<Task[]> {
+  async findAll(@User() user): Promise<Task[]> {
     return this.tasksService.findAll(user.userId);
   }
 
   @Get(':id')
-  findOne(
+  async findOne(
     @User() user,
     @Param('id', ParseObjectIdPipe) id: Types.ObjectId,
   ): Promise<Task> {
-    // TODO: handle not found error
     return this.tasksService.findOne(user.userId, id);
   }
 
   @Patch(':id')
-  update(
+  async update(
     @User() user,
     @Param('id', ParseObjectIdPipe) id: Types.ObjectId,
     @Body() updateTaskDto: UpdateTaskDto,
   ): Promise<Task> {
-    // TODO: handle errors
     return this.tasksService.update(user.userId, id, updateTaskDto);
   }
 }
