@@ -1,0 +1,33 @@
+version: '3'
+services:
+  tasks-api:
+    container_name: tasks-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      DATABASE_URI: "mongodb://tasks-mongo.internal:27017/tasks"
+      JWT_SECRET_KEY: "secret"
+      JWT_EXPIRATION_TIME: "8h"
+    networks:
+      tasks:
+        aliases:
+          - tasks-api.internal
+
+  tasks-mongo:
+    image: mongo
+    container_name: tasks-mongo
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      tasks:
+        aliases:
+          - tasks-mongo.internal
+
+networks:
+  tasks:
+    name: tasks
+    driver: 'bridge'
